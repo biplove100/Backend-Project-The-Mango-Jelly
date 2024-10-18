@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comic Book Details</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        /* Card container */
+        .comic-details {
+            background-color: white;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comic-details ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .comic-details li {
+            padding: 10px 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .comic-details li strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        a, button {
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        a:hover, button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Delete Button */
+        form button {
+            background-color: #dc3545;
+        }
+
+        form button:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h2>Comic Book Details</h2>
+
+    <div class="comic-details">
+        <ul>
+            <li><strong>Book Name:</strong> <%= comic.BookName %></li>
+            <li><strong>Author Name:</strong> <%= comic.AuthorName %></li>
+            <li><strong>Year of Publication:</strong> <%= comic.YearOfPublication %></li>
+            <li><strong>Price:</strong> &#8377;<%= comic.Price.toLocaleString("en-IN") %></li>
+            <li><strong>Discount:</strong> <%= comic.Discount %> %</li>
+            <li><strong>Number of Pages:</strong> <%= comic.NumberOfPages %></li>
+            <li><strong>Condition:</strong> <%= comic.Condition %></li>
+            <li><strong>Description:</strong> <%= comic.description %></li>
+            <li><strong>Genre:</strong> <%= comic.Genre %></li>
+        </ul>
+
+        <!-- Buttons for Edit and Delete -->
+        <div class="buttons">
+            <a href="/comics/<%= comic._id %>/edit">Edit the Comic</a>
+
+            <form method="post" action="/comics/<%=comic._id%>?_method=DELETE">
+                <button>Delete</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

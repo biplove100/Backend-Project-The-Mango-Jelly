@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show All Comics</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        /* Form styling */
+        form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Sorting Dropdown */
+        .sorting {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .sorting form {
+            display: inline-block;
+        }
+
+        .sorting label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .sorting select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Styling the container */
+        .comics-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Styling individual comic cards */
+        .comic-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .comic-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .comic-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .comic-details {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .comic-link {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .comic-link:hover {
+            color: #0056b3;
+        }
+
+        /* Pagination styles */
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .pagination a.active {
+            background-color: #0056b3;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h2>All Comic Books Available</h2>
+
+    <!-- Form to add a new comic -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <form method="GET" action="/comics/new">
+            <button>ADD New Comic Book</button>
+        </form>
+    </div>
+
+    <!-- Sorting Options -->
+    <div class="sorting">
+        <form method="GET" action="/comics">
+            <label for="sort">Sort by: </label>
+            <select name="sortBy" id="sort" onchange="this.form.submit()">
+                <option value="" disabled selected>Select an option</option>
+                <option value="NumberOfPages">Number of Pages (ascending)</option>
+                <option value="Price">Price (ascending)</option>
+                <option value="YearOfPublication">Year of Publication (ascending)</option>
+                <option value="BookName">Alphabetically (A-Z)</option>
+            </select>
+        </form>
+    </div>
+
+    <!-- List of comics in card layout -->
+    <div class="comics-container">
+        <% for (let comic of allComics) { %>
+            <div class="comic-card">
+                <div class="comic-title"><%= comic.BookName %></div>
+                <div class="comic-details">By <%= comic.AuthorName %></div>
+                <div class="comic-details">Price: &#8377;<%= comic.Price %></div>
+                <a class="comic-link" href="/comics/<%= comic._id %>">View Details</a>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <% let totalPages = Math.ceil(totalComics / limit); %>
+        
+        <% if (currentPage > 1) { %>
+            <a href="/comics?page=<%= currentPage - 1 %>&sortBy=<%= sortBy %>">&laquo; Previous</a>
+        <% } %>
+
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <a href="/comics?page=<%= i %>&sortBy=<%= sortBy %>" class="<%= i == currentPage ? 'active' : '' %>">
+                <%= i %>
+            </a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+            <a href="/comics?page=<%= currentPage + 1 %>&sortBy=<%= sortBy %>">Next &raquo;</a>
+        <% } %>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit : <%= comics.BookName %></title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-container input, 
+        .form-container select, 
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Edit : <%= comics.BookName %></h2>
+
+    <div class="form-container">
+        <form method="POST" action="/comics/<%= comics._id %>?_method=PUT">
+            <input name="comics[BookName]" value="<%= comics.BookName %>" type="text" required>
+            <input name="comics[AuthorName]" value="<%= comics.AuthorName %>" type="text" required>
+            <input name="comics[YearOfPublication]" value="<%= comics.YearOfPublication %>" type="number" required>
+            <input name="comics[Price]" value="<%= comics.Price %>" type="number" step="0.01" required>
+            <input name="comics[Discount]" value="<%= comics.Discount %>" type="number" step="0.01">
+            <input name="comics[NumberOfPages]" value="<%= comics.NumberOfPages %>" type="number" required>
+            <select name="comics[Condition]" required>
+                <option value="<%= comics.Condition %>" disabled selected>Select Condition</option>
+                <option value="new">New</option>
+                <option value="used">Used</option>
+            </select>
+            <textarea name="comics[description]" placeholder="Description (optional)"><%= comics.description %></textarea>
+            <select name="comics[Genre]" required>
+                <option value="<%= comics.Genre %>" disabled selected>Select Genre</option>
+                <option value="sci-fi">Sci-Fi</option>
+                <option value="war">War</option>
+                <option value="family">Family</option>
+                <option value="soldier">Soldier</option>
+                <option value="friendship">Friendship</option>
+                <option value="love">Love</option>
+            </select>
+            <button type="submit">Edit Comic Book</button>        
+        </form>
+    </div>
+</body>
+</html>
